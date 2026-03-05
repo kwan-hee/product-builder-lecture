@@ -13,6 +13,15 @@
       --border: rgba(255,255,255,0.14);
       --shadow: 0 18px 50px rgba(0,0,0,0.35);
     }
+    body[data-theme="light"] {
+        --bg: #f4f6f8;
+        --card: #ffffff;
+        --text: #212529;
+        --muted: #6c757d;
+        --border: #dee2e6;
+        --shadow: 0 12px 40px rgba(0,0,0,0.1);
+        background: var(--bg);
+    }
     * { box-sizing: border-box; }
     body {
       margin: 0;
@@ -173,6 +182,49 @@
       opacity: 1;
       transform: translateX(-50%) translateY(-6px);
     }
+    body[data-theme="light"] .card {
+        background: var(--card);
+        border-color: var(--border);
+        box-shadow: var(--shadow);
+    }
+    body[data-theme="light"] p { color: var(--muted); }
+    body[data-theme="light"] h1 { color: var(--text); }
+    body[data-theme="light"] button {
+        border-color: #ced4da;
+        background: #f8f9fa;
+        color: #495057;
+    }
+    body[data-theme="light"] button:hover { background: #e9ecef; border-color: #b1b9c1; }
+    body[data-theme="light"] button.primary {
+        background: #0d6efd;
+        border-color: #0d6efd;
+        color: #fff;
+    }
+    body[data-theme="light"] button.danger {
+        background: #dc3545;
+        border-color: #dc3545;
+        color: #fff;
+    }
+    body[data-theme="light"] .ball {
+        border-color: #dee2e6;
+        background: #f8f9fa;
+        color: #343a40;
+    }
+     body[data-theme="light"] .meta code {
+        background: #e9ecef;
+        border-color: #dee2e6;
+        color: #212529;
+    }
+    body[data-theme="light"] .hist-item {
+        border-color: #e9ecef;
+        background: #f8f9fa;
+    }
+     body[data-theme="light"] .hist-top { color: #6c757d; }
+     body[data-theme="light"] .toast {
+        background: rgba(33,37,41,0.85);
+        border: 1px solid rgba(255,255,255,0.05);
+        color: #fff;
+     }
   </style>
 </head>
 <body>
@@ -185,6 +237,7 @@
         <button class="primary" id="btnPick">번호 추천</button>
         <button id="btnCopy">현재 번호 복사</button>
         <button class="danger" id="btnClear">기록 삭제</button>
+        <button id="btnTheme">테마 변경</button>
       </div>
 
       <div class="nums" id="nums" aria-label="추천 번호 영역"></div>
@@ -224,6 +277,7 @@
     const $toast = document.getElementById('toast');
 
     const STORAGE_KEY = 'lotto_history_v1';
+    const THEME_KEY = 'lotto_theme_v1';
     const MAX_HISTORY = 20;
 
     function showToast(message) {
@@ -269,7 +323,7 @@
 
     function loadHistory() {
       try {
-        return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+        return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]')
       } catch {
         return [];
       }
@@ -350,6 +404,18 @@
       window.__current = numbers;
       renderBalls($nums, numbers);
     }
+    
+    function applyTheme(theme) {
+        document.body.dataset.theme = theme;
+    }
+
+    function loadTheme() {
+        return localStorage.getItem(THEME_KEY) || 'dark';
+    }
+
+    function saveTheme(theme) {
+        localStorage.setItem(THEME_KEY, theme);
+    }
 
     document.getElementById('btnPick').addEventListener('click', () => {
       const numbers = pickLottoNumbers();
@@ -384,12 +450,19 @@
       renderHistory();
       showToast('기록을 삭제했어요');
     });
+    
+    document.getElementById('btnTheme').addEventListener('click', () => {
+        const currentTheme = loadTheme();
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        applyTheme(newTheme);
+        saveTheme(newTheme);
+        showToast(newTheme === 'dark' ? '다크 모드로 변경했어요' : '라이트 모드로 변경했어요');
+    });
 
     // 초기 로드
     renderHistory();
     setCurrent([].slice()); // 비워두기
+    applyTheme(loadTheme());
   </script>
 </body>
 </html>
-
-
