@@ -60,7 +60,7 @@
       margin-top: 16px;
       align-items: center;
     }
-    button {
+    button, a.button {
       appearance: none;
       border: 1px solid var(--border);
       background: rgba(255,255,255,0.10);
@@ -70,14 +70,16 @@
       cursor: pointer;
       font-weight: 700;
       transition: transform .06s ease, background .15s ease, border-color .15s ease;
+      text-decoration: none;
+      display: inline-block;
     }
-    button:hover { background: rgba(255,255,255,0.14); border-color: rgba(255,255,255,0.22); }
-    button:active { transform: translateY(1px); }
-    button.primary {
+    button:hover, a.button:hover { background: rgba(255,255,255,0.14); border-color: rgba(255,255,255,0.22); }
+    button:active, a.button:active { transform: translateY(1px); }
+    button.primary, a.button.primary {
       background: rgba(40, 167, 69, 0.2);
       border-color: rgba(40, 167, 69, 0.4);
     }
-    button.danger {
+    button.danger, a.button.danger {
       background: rgba(255, 90, 90, 0.14);
       border-color: rgba(255, 90, 90, 0.32);
     }
@@ -190,18 +192,18 @@
     }
     body[data-theme="light"] p { color: var(--muted); }
     body[data-theme="light"] h1 { color: var(--text); }
-    body[data-theme="light"] button {
+    body[data-theme="light"] button, body[data-theme="light"] a.button {
         border-color: #ced4da;
         background: #f8f9fa;
         color: #495057;
     }
-    body[data-theme="light"] button:hover { background: #e9ecef; border-color: #b1b9c1; }
-    body[data-theme="light"] button.primary {
+    body[data-theme="light"] button:hover, body[data-theme="light"] a.button:hover { background: #e9ecef; border-color: #b1b9c1; }
+    body[data-theme="light"] button.primary, body[data-theme="light"] a.button.primary {
         background: #28a745;
         border-color: #28a745;
         color: #fff;
     }
-    body[data-theme="light"] button.danger {
+    body[data-theme="light"] button.danger, body[data-theme="light"] a.button.danger {
         background: #dc3545;
         border-color: #dc3545;
         color: #fff;
@@ -261,6 +263,7 @@
         <button id="btnCopy">현재 번호 복사</button>
         <button class="danger" id="btnClear">기록 삭제</button>
         <button id="btnTheme">테마 변경</button>
+        <a href="/animal-test.html" class="button">동물상 테스트</a>
       </div>
 
       <div class="nums" id="nums" aria-label="추천 번호 영역"></div>
